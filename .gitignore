@@ -172,3 +172,4 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+SmugMugSync/SmugMugSync.sln.ide/*
