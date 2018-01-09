@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.21901.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27228.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmugMugSync.Console", "SmugMugSync.Console\SmugMugSync.Console.csproj", "{48A6D002-D8E3-44D7-A15E-AEF7597890A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmugSync", "SmugSync\SmugSync.csproj", "{EBD32734-E7E0-4416-8347-1CD08E79E021}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{48A6D002-D8E3-44D7-A15E-AEF7597890A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48A6D002-D8E3-44D7-A15E-AEF7597890A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48A6D002-D8E3-44D7-A15E-AEF7597890A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBD32734-E7E0-4416-8347-1CD08E79E021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBD32734-E7E0-4416-8347-1CD08E79E021}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBD32734-E7E0-4416-8347-1CD08E79E021}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBD32734-E7E0-4416-8347-1CD08E79E021}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5F38E9E0-1289-4E93-A623-128B47FC2411}
 	EndGlobalSection
 EndGlobal
