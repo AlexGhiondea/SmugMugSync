@@ -173,3 +173,9 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 SmugMugSync/SmugMugSync.sln.ide/*
+.vs/ProjectSettings.json
+.vs/slnx.sqlite
+SmugMugSync/.vs/SmugMugSync/v15/Server/sqlite3/db.lock
+SmugMugSync/.vs/SmugMugSync/v15/Server/sqlite3/storage.ide
+SmugMugSync/.vs/SmugMugSync/v15/Server/sqlite3/storage.ide-shm
+SmugMugSync/.vs/SmugMugSync/v15/Server/sqlite3/storage.ide-wal
