@@ -69,8 +69,30 @@ namespace SmugSync
 
             Colorizer.WriteLine("Retrieving information about the images in the album: [Yellow!{0}] ", album.Name);
             // Find all the photos from the album.
-            var imagesOnSite = album.GetImagesAsync().Result;
-            Colorizer.WriteLine("Found [Yellow!{0}] images in the album", imagesOnSite.Length);
+            var imagesOnSiteRaw = album.GetImagesAsync().Result;
+
+            // filter our the images.
+            var imagesOnSite = new List<ImageEntity>();
+            if (s_options.Tags != null)
+            {
+                foreach (var image in imagesOnSiteRaw)
+                {
+                    bool hasAtLeastATag = false;
+                    foreach (var tag in s_options.Tags)
+                    {
+                        if (image.Keywords.ToLower().Contains(tag.ToLower()))
+                        {
+                            hasAtLeastATag = true;
+                            break;
+                        }
+                    }
+
+                    if (hasAtLeastATag)
+                        imagesOnSite.Add((image));
+                }
+            }
+
+            Colorizer.WriteLine("Found [Yellow!{0}] images in the album", imagesOnSite.Count);
 
             FileInfo[] filesOnDisk = new DirectoryInfo(s_options.OutputFolder).GetFiles();
 
@@ -95,18 +117,33 @@ namespace SmugSync
 
             foreach (var image in filesToDownload)
             {
-                var imgeSizes = image.GetImageSizesAsync().Result;
+                image.ImageKey = image.ImageKey + "-1";
+                var imageSizes = image.GetImageSizesAsync().Result;
 
+                string downloadUri;
+                if (imageSizes == null)
+                    downloadUri = image.ArchivedUri;
+                else
+                    downloadUri = imageSizes.OriginalImageUrl;
+                
+                //if (imageSizes == null)
+                //{
+                //    downloadUri = 
+                //}
+                //else
+                //    downloadUri = imageSizes.OriginalImageUrl;
+
+                Colorizer.WriteLine("Using [White!{0}]", downloadUri);
                 Colorizer.Write("Downloading [Yellow!{0}] ([White!{1}] bytes)... ", image.FileName, GetFileSizeAsString((ulong)image.OriginalSize));
-                DownloadImageAsync(imgeSizes, image).Wait();
+                DownloadImageAsync(downloadUri, image).Wait();
                 Colorizer.WriteLine("[Green!done].");
             }
         }
 
-        private static async Task DownloadImageAsync(ImageSizesEntity imgeSizes, ImageEntity image)
+        private static async Task DownloadImageAsync(string imgDownloadUri, ImageEntity image)
         {
             using (HttpClient client = new HttpClient())
-            using (Stream dlStream = await client.GetStreamAsync(imgeSizes.OriginalImageUrl))
+            using (Stream dlStream = await client.GetStreamAsync(imgDownloadUri))
             using (FileStream stream = new FileStream(Path.Combine(s_options.OutputFolder, image.FileName), FileMode.Create,
                 FileAccess.Write))
             {

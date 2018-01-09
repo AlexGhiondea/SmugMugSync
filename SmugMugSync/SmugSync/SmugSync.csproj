@@ -3,11 +3,25 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <RuntimeIdentifiers>win10-x64;osx.10.10-x64</RuntimeIdentifiers>
+    <TrimUnusedDependencies>true</TrimUnusedDependencies>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <PackageReference Include="CommandLine.Net" Version="1.3.0" />
-    <PackageReference Include="SmugMug.Net.v2Api" Version="1.0.0-beta1" />
+    <PackageReference Include="Microsoft.Packaging.Tools.Trimming" Version="1.1.0-preview1-25818-01" />
+    <PackageReference Include="SmugMug.Net.v2Api" Version="1.0.0-beta3" />
   </ItemGroup>
+  
+  <Target Name="PublishAll" AfterTargets="Publish" Condition="'$(RuntimeIdentifier)'=='' and '$(RuntimeIdentifiers)'!=''">
+    <ItemGroup>
+      <RIDsToPublish Include="$(RuntimeIdentifiers)" />
+    </ItemGroup>
 
+    <MSBuild Projects="$(MSBuildProjectFullPath)" Targets="Publish" Properties="RuntimeIdentifier=%(RIDsToPublish.Identity)" RemoveProperties="RuntimeIdentifiers" />
+  </Target>
+
+  <Target Name="PublishRID" AfterTargets="Publish" Condition="'$(RuntimeIdentifier)'!=''">
+    <Message Importance="High" Text="Published $(RuntimeIdentifier)" />
+  </Target>
 </Project>
